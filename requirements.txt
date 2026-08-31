@@ -1,0 +1,16 @@
+torch==2.10.0
+torchaudio
+torchvision
+pandas
+numpy
+matplotlib
+pyfaidx
+enformer-pytorch==0.8.11
+wandb
+scikit-learn
+scipy
+pyarrow
+pyliftover
+transformers==4.35.2
+accelerate
+einops

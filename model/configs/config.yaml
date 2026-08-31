@@ -1,0 +1,44 @@
+# PASTL fine-tuning configuration (example — replace placeholder paths)
+
+# --- Paths ---
+project_dir:      .
+data_dir:         /path/to/data
+out_dir:          out
+cache_dir:        cache
+sequences_bed:    data/sequences_protein.bed
+fasta:            /path/to/data/GRCh38.d1.vd1.fa
+
+# --- Model ---
+attention_head:     true
+bottleneck_dropout: 0.60
+head_dropout:       0.15
+use_gene_mask:      true
+
+# --- Optimizer ---
+trunk_lr:     1e-6
+head_lr:      1.5e-5
+weight_decay: 1e-2
+
+# --- Schedule ---
+epochs:              50
+warmup_epochs:       5
+freeze_trunk_epochs: 10
+min_lr:        1e-8
+
+# --- Batching ---
+batch_size:         4
+accumulation_steps: 16   # effective batch = 64
+
+# --- Regularisation ---
+max_grad_norm: 0.2
+
+# --- Data ---
+window_size: 196608
+
+# --- System ---
+max_workers:       7
+compile_model:     false
+use_checkpointing: true
+
+# --- Logging ---
+wandb_project: pastl-finetune

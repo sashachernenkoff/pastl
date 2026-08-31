@@ -1,0 +1,48 @@
+# PASTL matplotlib style sheet
+# Format rules: 300 DPI, black x/y spines, top/right hidden, no minor ticks,
+# no gridlines, bold title with pad=15, thin spines/ticks, reduced tick
+# label size, skinny/square-legend friendly defaults.
+# NOTE: category colours are NOT set here - palette.py's use_style() applies
+# GROUP_FILLS from whichever palette is active ("bold" or "muted").
+
+figure.dpi         : 300
+savefig.dpi        : 300
+
+axes.spines.right  : False
+axes.spines.top    : False
+axes.edgecolor     : black
+axes.linewidth      : 0.4
+
+axes.grid          : False
+
+font.family         : sans-serif
+font.sans-serif     : Arial, Helvetica, DejaVu Sans
+font.size           : 9
+
+axes.titleweight   : normal
+axes.titlepad      : 8.0
+axes.titlesize      : 9
+axes.labelsize      : 9
+
+xtick.minor.visible : False
+ytick.minor.visible : False
+
+xtick.major.width   : 0.4
+ytick.major.width   : 0.4
+xtick.major.size    : 2.5
+ytick.major.size    : 2.5
+xtick.labelsize     : 7.5
+ytick.labelsize     : 7.5
+
+lines.linewidth      : 1.1
+
+# Bar/patch plots: no outline ever.
+patch.edgecolor      : none
+
+# Scatter points: filled with the chosen colour, thin black outline.
+scatter.edgecolors   : black
+
+legend.frameon       : False
+legend.fontsize      : 8
+legend.handleheight  : 1.0
+legend.handlelength  : 1.0

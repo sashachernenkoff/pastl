@@ -1,30 +1,32 @@
 # <img src="figures/pastl_logo.png" alt="PASTL logo" height="100"><br>PASTL: Protein Abundance from Sequence via Transfer Learning
 
-PASTL predicts steady-state protein abundance directly from raw DNA sequence by
-fine-tuning the [Enformer](https://www.nature.com/articles/s41592-021-01252-x)
-genomic foundation model. The goal is to quantify how much of the across-protein
-variation in abundance (averaged over a patient cohort) is encoded in the
-*cis*-regulatory DNA sequence around each gene.
+PASTL is a PyTorch transfer-learning pipeline that fine-tunes a genomic foundation model 
+with a custom biologically-gated attention head. It predicts steady-state protein abundance 
+directly from raw DNA sequence. It is based on the genomic model [Enformer](https://www.nature.com/articles/s41592-021-01252-x). PASTL 
+quantifies how much of the across-protein variation in abundance (averaged over a patient 
+cohort) is encoded in the *cis*-regulatory DNA sequence around each gene.
+
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)
 
 ## Background
 
-PASTL tests whether the sequence representations learned by a large pretrained
-genomics model generalize to a target it was never trained on (scalar steady-state
-protein abundance) and what that transfer reveals about post-transcriptional
-regulation. Its backbone, Enformer, is pre-trained to predict functional genomics
-tracks (CAGE, DNase, ChIP, and related assays) from sequence.
+PASTL tests whether the sequence representations learned by a large pretrained 
+genomics model generalize to a target it was never trained on (scalar steady-state 
+protein abundance). The result reveals how much of that transfer reflects genuine 
+post-transcriptional regulation. Its backbone, Enformer, is pre-trained to predict 
+functional genomics tracks (CAGE, DNase, ChIP, and related assays) from sequence.
 
-Three considerations motivate the design:
+Two considerations motivate this design:
 
-- **Direct sequence-to-abundance mapping** avoids the compounding error of chained
-  intermediate predictors (i.e. DNA → RNA → protein) and exposes sequence features
-  that act on abundance post-transcriptionally.
-- **Scalar regression on a sparse label set** (one value per protein) is prone to
-  overfitting and to discarding spatial signal when a 196,608 bp window is collapsed
-  to a single number.
-- **Transfer learning** reuses Enformer's pre-compressed `[896, 3072]` spatial
-  embeddings (128 bp resolution) for scalar prediction while retaining
-  the regulatory resolution needed for the new task.
+- **Direct sequence-to-abundance mapping** avoids the compounding error of chained 
+  intermediate predictors (DNA → RNA → protein) and exposes sequence features that 
+  act on abundance post-transcriptionally.
+- **Transfer learning** addresses a data-scarcity problem. Protein abundance labels 
+  are sparse (one scalar value per protein) so training from scratch risks overfitting 
+  and discards spatial signal when a 196,608 bp window is collapsed to a single number. 
+  Reusing Enformer's pre-compressed [896, 3072] spatial embeddings (128 bp resolution) 
+  preserves the regulatory resolution needed for the new task.
 
 > **Note on data.** This repository contains code and lightweight reference files
 > only. The proteomics labels (CPTAC), reference genome, GTEx/GENCODE annotations,
@@ -51,7 +53,7 @@ final protein abundance prediction.</em>
 - **Backbone.** Pre-trained `EleutherAI/enformer-official-rough`, mapping one-hot DNA
   `[B, 196608, 4]` to embeddings `[B, 896, 3072]` (896 bins at 128 bp resolution).
 - **Head.** Biologically-gated spatial aggregation with learned attention weighting:
-  a 3072→256 feature bottleneck, per bin attention score, a gene-locus mask that
+  a 3072→256 feature bottleneck, per-bin attention score, a gene-locus mask that
   restricts attention to bins overlapping the target transcript, and a linear
   read-out to a single prediction. A central-bin linear head is provided as an ablation.
 - **Training.** Two-stage fine-tuning (frozen trunk → unfrozen blocks) with

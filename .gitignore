@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Claude Code settings
+.claude/
+
+# Data / large files
+*.bam
+*.bai
+*.bw
+*.bigwig
+*.npz
+*.npy
+*.h5
+*.fasta
+*.fa
+*.fai
+*.vcf
+*.vcf.gz
+*.seg
+
+# Figures / images
+img/
+
+# Logs / output
+*.out
+*.err
+*.log
+slurm-*.out
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Env / secrets
+.env
+*.key
+
+# Antigravity
+.ag/
